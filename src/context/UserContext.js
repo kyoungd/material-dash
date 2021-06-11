@@ -1,5 +1,4 @@
 import React from "react";
-import { getCompanyInfo } from './Api';
 
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
@@ -12,12 +11,14 @@ function userReducer(state, action) {
       return { ...state, isAuthenticated: false };
     case "SYMBOLS":
       return { ...state, symbols: action.payload };
+    case "TWEETS":
+      return { ...state, tweets: action.payload };
+    case "TWEET_SUMMARY":
+      return { ...state, tweetSummary: action.payload };
     case "SETTINGS":
-      const item = { ...state, settings: action.payload };
-      return item;
-    default: {
+      return { ...state, settings: action.payload };
+    default:
       throw new Error(`Unhandled action type: ${action.type}`);
-    }
   }
 }
 
@@ -26,6 +27,8 @@ function UserProvider({ children }) {
     isAuthenticated: !!localStorage.getItem("id_token"),
     symbols: [],
     settings: {},
+    tweets: [],
+    tweetSummary: [],
   });
 
   return (

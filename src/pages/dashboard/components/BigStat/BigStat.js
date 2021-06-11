@@ -13,7 +13,7 @@ import Widget from "../../../../components/Widget";
 import { Typography } from "../../../../components/Wrappers";
 
 export default function BigStat(props) {
-  var { product, total, color, registrations, bounce } = props;
+  var { product, total, color, messages, sentiment } = props;
   var classes = useStyles();
   var theme = useTheme();
 
@@ -68,38 +68,38 @@ export default function BigStat(props) {
       <div className={classes.bottomStatsContainer}>
         <div className={classnames(classes.statCell, classes.borderRight)}>
           <Grid container alignItems="center">
-            <Typography variant="h6">{registrations[value].value}</Typography>
+            <Typography variant="h6">{messages[value].value}</Typography>
             <ArrowForwardIcon
               className={classnames(classes.profitArrow, {
-                [!registrations[value].profit]: classes.profitArrowDanger,
+                [!messages[value].profit]: classes.profitArrowDanger,
               })}
             />
           </Grid>
           <Typography size="sm" color="text" colorBrightness="secondary">
-            Registrations
+            messages
           </Typography>
         </div>
         <div className={classes.statCell}>
           <Grid container alignItems="center">
-            <Typography variant="h6">{bounce[value].value}%</Typography>
+            <Typography variant="h6">{sentiment[value].value}%</Typography>
             <ArrowForwardIcon
               className={classnames(classes.profitArrow, {
-                [!registrations[value].profit]: classes.profitArrowDanger,
+                [!messages[value].profit]: classes.profitArrowDanger,
               })}
             />
           </Grid>
           <Typography size="sm" color="text" colorBrightness="secondary">
-            Bounce Rate
+            Sentiment
           </Typography>
         </div>
         <div className={classnames(classes.statCell, classes.borderRight)}>
           <Grid container alignItems="center">
             <Typography variant="h6">
-              {registrations[value].value * 10}
+              {messages[value].value * 10}
             </Typography>
             <ArrowForwardIcon
               className={classnames(classes.profitArrow, {
-                [classes.profitArrowDanger]: !registrations[value].profit,
+                [classes.profitArrowDanger]: !messages[value].profit,
               })}
             />
           </Grid>

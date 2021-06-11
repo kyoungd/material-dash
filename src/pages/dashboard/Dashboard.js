@@ -28,25 +28,39 @@ import BigStat from "./components/BigStat/BigStat";
 import Ticker from "../../components/Ticker/Ticker";
 import { useUserState } from "../../context/UserContext";
 
-const mainChartData = getMainChartData();
 
 function symbolCard(item) {
-  const { symbol, name, sector, average_volume_10days, float_volume, short_percent, short_volume, summary, major_investor } = item[0]
-  return (
-    <Grid item lg={3} md={6} sm={9} xs={12}>
-      <Ticker symbol={symbol} company={name} sentiment={0}
-        sector={sector} avgVol={average_volume_10days} floats={float_volume}
-        shortPercent={short_percent} shortVolume={short_volume} summary={summary}
-        institutions={major_investor}
-      />
-    </Grid>
-  );
+  try {
+    const { symbol, name, sector, average_volume_10days, float_volume, short_percent, short_volume, summary, major_investor } = item[0]
+    return (
+      <Grid item lg={3} md={6} sm={9} xs={12}>
+        <Ticker symbol={symbol} company={name} sentiment={0}
+          sector={sector} avgVol={average_volume_10days} floats={float_volume}
+          shortPercent={short_percent} shortVolume={short_volume} summary={summary}
+          institutions={major_investor}
+        />
+      </Grid>
+    );
+  }
+  catch (ex) {
+    return (
+      <Grid item lg={3} md={6} sm={9} xs={12}>
+        <Ticker symbol={''} company={'SYSTEM-ERROR'} sentiment={0}
+          sector={''} avgVol={0} floats={0}
+          shortPercent={0} shortVolume={0} summary={'symbolCard()'}
+          institutions={ex.message}
+        />
+      </Grid>
+    );
+  }
 }
 
 export default function Dashboard(props) {
   var classes = useStyles();
   var theme = useTheme();
   var userState = useUserState();
+
+  const mainChartData = getMainChartData(userState);
 
   // local
   var [mainChartState, setMainChartState] = useState("monthly");
@@ -126,7 +140,7 @@ export default function Dashboard(props) {
                 data={mainChartData}
               >
                 <YAxis
-                  ticks={[0, 2500, 5000, 7500]}
+                  ticks={[0, 1, 2, 3]}
                   tick={{ fill: theme.palette.text.hint + "80", fontSize: 14 }}
                   stroke={theme.palette.text.hint + "80"}
                   tickLine={false}
@@ -199,19 +213,33 @@ function getRandomData(length, min, max, multiplier = 10, maxDiff = 10) {
   });
 }
 
-function getMainChartData() {
-  var resultArray = [];
-  var tablet = getRandomData(31, 3500, 6500, 7500, 1000);
-  var desktop = getRandomData(31, 1500, 7500, 7500, 1500);
-  var mobile = getRandomData(31, 1500, 7500, 7500, 1500);
+function getMainChartData(userState) {
 
-  for (let i = 0; i < tablet.length; i++) {
-    resultArray.push({
-      tablet: tablet[i].value,
-      desktop: desktop[i].value,
-      mobile: mobile[i].value,
-    });
+  var resultArray = [];
+  const summary = userState.tweetSummary;
+  if (summary.length > 0) {
+    const scores = summary[0].map(tweetSum => tweetSum.tweet_score);
+    const counts = summary[0].map(tweetSum => tweetSum.tweet_count);
+    for (let i = 0; i < scores.length; i++) {
+      resultArray.push({
+        tablet: scores[i].value,
+        desktop: counts[i].value,
+        mobile: 0,
+      });
+    }
   }
+
+  // var tablet = getRandomData(31, 3500, 6500, 7500, 1000);
+  // var desktop = getRandomData(31, 1500, 7500, 7500, 1500);
+  // var mobile = getRandomData(31, 1500, 7500, 7500, 1500);
+
+  // for (let i = 0; i < tablet.length; i++) {
+  //   resultArray.push({
+  //     tablet: tablet[i].value,
+  //     desktop: desktop[i].value,
+  //     mobile: mobile[i].value,
+  //   });
+  // }
 
   return resultArray;
 }

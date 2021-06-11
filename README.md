@@ -104,3 +104,8 @@ Looking for premium themes and templates? Check out more [admin dashboard templa
 ## License
 
 [MIT](https://github.com/flatlogic/react-material-dashboard/blob/master/LICENSE.txt).
+
+## run and debug
+
+npm run start
+<F5>

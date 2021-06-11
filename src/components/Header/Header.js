@@ -6,8 +6,7 @@ import {
   InputBase,
   Menu,
   MenuItem,
-  Fab,
-  Link
+  Fab
 } from "@material-ui/core";
 import {
   Menu as MenuIcon,
@@ -24,11 +23,11 @@ import classNames from "classnames";
 import useStyles from "./styles";
 
 // components
-import { Badge, Typography, Button } from "../Wrappers";
+import { Badge, Typography } from "../Wrappers";
 import Notification from "../Notification/Notification";
 import UserAvatar from "../UserAvatar/UserAvatar";
 
-import { getCompanyInfo } from "../../context/Api";
+import { getCompanyInfo, getCompanyTweets, getCompanyTweetSummary } from "../../context/Api";
 
 
 // context
@@ -168,11 +167,30 @@ export default function Header(props) {
             .then(results => {
               Promise.all(results).then(symbols => {
                 userDispatch({ type: "SYMBOLS", payload: symbols });
-                return searchList;
               });
             })
             .catch(err => {
-              return {}
+              console.log(err);
+            });
+
+          getCompanyTweets(searchList)
+            .then(results => {
+              Promise.all(results).then(tweets => {
+                userDispatch({ type: "TWEETS", payload: tweets });
+              });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+
+          getCompanyTweetSummary(searchList)
+            .then(results => {
+              Promise.all(results).then(sums => {
+                userDispatch({ type: "TWEET_SUMMARY", payload: sums });
+              });
+            })
+            .catch(err => {
+              console.log(err);
             });
 
           // const tickers = searchList.split(',');
