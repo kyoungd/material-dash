@@ -58,8 +58,10 @@ function volumeString(avgVol) {
 // shortPercent = { short_percent } shortVolume = { short_volume } summary = { summary }
 // institutions = { major_investor }
 
-export default function Ticker({ company, symbol, sentiment, avgVol, floats, shortPercent, shortVolume, institutions, summary }) {
+export default function Ticker({ company, symbol, sentiment, avgVol, floats, shortPercent, shortVolume, institutions, summary, dispatch }) {
     const [openDialog, setOpenDialog] = React.useState(false);
+
+    // dispatch({type: "SELECTION", payload: symbol});
 
     React.useEffect(() => {
         console.log(openDialog);
@@ -68,7 +70,7 @@ export default function Ticker({ company, symbol, sentiment, avgVol, floats, sho
     const volume = volumeString(avgVol);
     const shorts = volumeString(shortVolume);
     return (
-        <div className={classes.root}>
+        <div className={classes.root} onClick={() => dispatch({ type: "SELECTION", payload: symbol })}>
             <div className={classes.section1}>
                 <Grid container alignItems="center">
                     <Grid item xs>

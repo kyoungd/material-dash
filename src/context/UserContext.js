@@ -12,11 +12,15 @@ function userReducer(state, action) {
     case "SYMBOLS":
       return { ...state, symbols: action.payload };
     case "TWEETS":
-      return { ...state, tweets: action.payload };
+      const data1 = action.payload;
+      return { ...state, tweets: { ...state.tweets, ...data1 } };
     case "TWEET_SUMMARY":
-      return { ...state, tweetSummary: action.payload };
+      const data2 = action.payload;
+      return { ...state, tweetSummary: { ...state.tweetSummary, ...data2 } };
     case "SETTINGS":
       return { ...state, settings: action.payload };
+    case "SELECTION":
+      return { ...state, selected: action.payload };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -27,8 +31,9 @@ function UserProvider({ children }) {
     isAuthenticated: !!localStorage.getItem("id_token"),
     symbols: [],
     settings: {},
-    tweets: [],
-    tweetSummary: [],
+    tweets: {},
+    tweetSummary: {},
+    selected: "",
   });
 
   return (

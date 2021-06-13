@@ -26,20 +26,33 @@ import { Typography } from "../../components/Wrappers";
 import Dot from "../../components/Sidebar/components/Dot";
 import BigStat from "./components/BigStat/BigStat";
 import Ticker from "../../components/Ticker/Ticker";
-import { useUserState } from "../../context/UserContext";
+import { useUserState, useUserDispatch } from "../../context/UserContext";
 
 
-function symbolCard(item) {
+function symbolCard(item, dispatch, selectedItem, classes) {
   try {
     const { symbol, name, sector, average_volume_10days, float_volume, short_percent, short_volume, summary, major_investor } = item[0]
     return (
-      <Grid item lg={3} md={6} sm={9} xs={12}>
-        <Ticker symbol={symbol} company={name} sentiment={0}
-          sector={sector} avgVol={average_volume_10days} floats={float_volume}
-          shortPercent={short_percent} shortVolume={short_volume} summary={summary}
-          institutions={major_investor}
-        />
-      </Grid>
+      selectedItem === symbol ?
+        <Grid item lg={3} md={6} sm={9} xs={12}>
+          <div className={classes.notificationContainer}>
+            <Ticker symbol={symbol} company={name} sentiment={0}
+              sector={sector} avgVol={average_volume_10days} floats={float_volume}
+              shortPercent={short_percent} shortVolume={short_volume} summary={summary}
+              institutions={major_investor}
+              dispatch={dispatch}
+            />
+          </div>
+        </Grid>
+        :
+        <Grid item lg={3} md={6} sm={9} xs={12}>
+          <Ticker symbol={symbol} company={name} sentiment={0}
+            sector={sector} avgVol={average_volume_10days} floats={float_volume}
+            shortPercent={short_percent} shortVolume={short_volume} summary={summary}
+            institutions={major_investor}
+            dispatch={dispatch}
+          />
+        </Grid>
     );
   }
   catch (ex) {
@@ -49,16 +62,93 @@ function symbolCard(item) {
           sector={''} avgVol={0} floats={0}
           shortPercent={0} shortVolume={0} summary={'symbolCard()'}
           institutions={ex.message}
+          dispatch={dispatch}
         />
       </Grid>
     );
   }
 }
 
+function getBigStat(userState) {
+
+  const tweetSums = userState.tweetSummary[userState.selected];
+  const last30 = tweetSums ? tweetSums.slice(tweetSums.length - 12, tweetSums.length - 1) : 0;
+  const last60 = tweetSums ? tweetSums.slice(tweetSums.length - 24, tweetSums.lenth - 13) : 0;
+  const score30 = tweetSums ? last30.reduce((total, item) => total + item.tweet_score, 0) : 0;
+  const score60 = tweetSums ? last60.reduce((total, item) => total + item.tweet_score, 0) : 0;
+  const deltaScore = score60 !== 0 ? (score30 - score60) / score60 : 0;
+  const tweet30 = tweetSums ? last30.reduce((total, item) => total + item.tweet_count, 0) : 0;
+  const tweet60 = tweetSums ? last60.reduce((total, item) => total + item.tweet_count, 0) : 0;
+  const bigStat = [
+    {
+      product: "Tweets",
+      total: {
+        monthly: 0,
+        weekly: 0,
+        daily: Math.round(tweet30 + tweet60),
+        percent: { value: Math.round(deltaScore * 100), profit: false }
+      },
+      color: "primary",
+      messages: {
+        monthly: { value: 0, profit: false },
+        weekly: { value: 0, profit: true },
+        daily: { value: tweet30, profit: (tweet30 > tweet60) }
+      },
+      sentiment: {
+        monthly: { value: 0, profit: false },
+        weekly: { value: 0, profit: true },
+        daily: { value: Math.round(score30 * 100), profit: (score30 > score60) }
+      }
+    },
+    {
+      product: "Reddit",
+      total: {
+        monthly: 0,
+        weekly: 0,
+        daily: 0,
+        percent: { value: 0, profit: true }
+      },
+      color: "warning",
+      messages: {
+        monthly: { value: 0, profit: true },
+        weekly: { value: 0, profit: true },
+        daily: { value: 0, profit: false }
+      },
+      sentiment: {
+        monthly: { value: 0, profit: true },
+        weekly: { value: 0, profit: false },
+        daily: { value: 0, profit: false }
+      }
+    },
+    {
+      product: "News",
+      total: {
+        monthly: 0,
+        weekly: 0,
+        daily: 0,
+        percent: { value: 0, profit: true }
+      },
+      color: "secondary",
+      messages: {
+        monthly: { value: 0, profit: true },
+        weekly: { value: 0, profit: false },
+        daily: { value: 0, profit: false }
+      },
+      sentiment: {
+        monthly: { value: 0, profit: false },
+        weekly: { value: 0, profit: false },
+        daily: { value: 0, profit: true }
+      }
+    }
+  ]
+  return bigStat;
+}
+
 export default function Dashboard(props) {
   var classes = useStyles();
   var theme = useTheme();
   var userState = useUserState();
+  var userDispatch = useUserDispatch();
 
   const mainChartData = getMainChartData(userState);
 
@@ -77,7 +167,9 @@ export default function Dashboard(props) {
 
       <div className={classes.section}>
         <Grid container spacing={4}>
-          {userState.symbols.map(item => symbolCard(item))}
+          {
+            userState.symbols.map(item => symbolCard(item, userDispatch, userState.selected, classes))
+          }
         </Grid>
       </div>
       <Grid container spacing={4}>
@@ -91,7 +183,7 @@ export default function Dashboard(props) {
                   color="text"
                   colorBrightness="secondary"
                 >
-                  Daily Line Chart
+                  Tweeter Chart
                 </Typography>
                 <div className={classes.mainChartHeaderLabels}>
                   <div className={classes.mainChartHeaderLabel}>
@@ -103,13 +195,13 @@ export default function Dashboard(props) {
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="primary" />
                     <Typography className={classes.mainChartLegentElement}>
-                      Mobile
+                      Sentiment
                     </Typography>
                   </div>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="secondary" />
                     <Typography className={classes.mainChartLegentElement}>
-                      Desktop
+                      Count
                     </Typography>
                   </div>
                 </div>
@@ -181,7 +273,7 @@ export default function Dashboard(props) {
             </ResponsiveContainer>
           </Widget>
         </Grid>
-        {mock.bigStat.map(stat => (
+        {getBigStat(userState).map(stat => (
           <Grid item md={4} sm={6} xs={12} key={stat.product}>
             <BigStat {...stat} />
           </Grid>
@@ -216,16 +308,18 @@ function getRandomData(length, min, max, multiplier = 10, maxDiff = 10) {
 function getMainChartData(userState) {
 
   var resultArray = [];
-  const summary = userState.tweetSummary;
-  if (summary.length > 0) {
-    const scores = summary[0].map(tweetSum => tweetSum.tweet_score);
-    const counts = summary[0].map(tweetSum => tweetSum.tweet_count);
-    for (let i = 0; i < scores.length; i++) {
-      resultArray.push({
-        tablet: scores[i].value,
-        desktop: counts[i].value,
-        mobile: 0,
-      });
+  if (Object.keys(userState.tweetSummary).length > 0 && userState.selected !== '') {
+    const summary = userState.tweetSummary[userState.selected];
+    if (summary && summary.length > 0) {
+      const scores = summary.map(tweetSum => tweetSum.tweet_score);
+      const counts = summary.map(tweetSum => tweetSum.tweet_count);
+      for (let i = 0; i < scores.length; i++) {
+        resultArray.push({
+          tablet: 0,
+          desktop: counts[i],
+          mobile: scores[i],
+        });
+      }
     }
   }
 

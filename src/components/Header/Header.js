@@ -176,7 +176,7 @@ export default function Header(props) {
           getCompanyTweets(searchList)
             .then(results => {
               Promise.all(results).then(tweets => {
-                userDispatch({ type: "TWEETS", payload: tweets });
+                tweets.forEach(tweet => userDispatch({ type: "TWEETS", payload: tweet }));
               });
             })
             .catch(err => {
@@ -186,7 +186,7 @@ export default function Header(props) {
           getCompanyTweetSummary(searchList)
             .then(results => {
               Promise.all(results).then(sums => {
-                userDispatch({ type: "TWEET_SUMMARY", payload: sums });
+                sums.forEach(sum => userDispatch({ type: "TWEET_SUMMARY", payload: sum }));
               });
             })
             .catch(err => {
@@ -212,7 +212,7 @@ export default function Header(props) {
             </div>
             <InputBase
               onChange={e => {
-                setSearchList(e.target.value)
+                setSearchList(e.target.value.toUpperCase())
               }}
               value={searchList}
               placeholder="Search…"
