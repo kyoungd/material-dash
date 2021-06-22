@@ -44,5 +44,10 @@ export default makeStyles(theme => ({
   },
   bodyWidgetOverflow: {
     overflow: 'auto'
+  },
+  none: {
+  },
+  notificationContainer: {
+    boxShadow: theme.customShadows.widgetDark,
   }
 }));

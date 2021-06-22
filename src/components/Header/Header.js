@@ -27,7 +27,7 @@ import { Badge, Typography } from "../Wrappers";
 import Notification from "../Notification/Notification";
 import UserAvatar from "../UserAvatar/UserAvatar";
 
-import { getCompanyInfo, getCompanyTweets, getCompanyTweetSummary } from "../../context/Api";
+import { getCompanyInfo, getCompanyTweets, getCompanyTweetSummary, getCompanyNews, getCompanyNewsSummary } from "../../context/Api";
 
 
 // context
@@ -163,35 +163,54 @@ export default function Header(props) {
         <div className={classes.grow} />
         <form onSubmit={(e) => {
           e.preventDefault();
-          getCompanyInfo(searchList)
-            .then(results => {
-              Promise.all(results).then(symbols => {
-                userDispatch({ type: "SYMBOLS", payload: symbols });
+          const companyDataFuncs = [
+            { signal: "SYMBOLS", func: getCompanyInfo },
+            { signal: "TWEETS", func: getCompanyTweets },
+            { signal: "TWEET_SUMMARY", func: getCompanyTweetSummary },
+            { signal: "NEWS", func: getCompanyNews },
+            { signal: "NEWS_SUMMARY", func: getCompanyNewsSummary }
+          ];
+          companyDataFuncs.map(call => {
+            call.func(searchList)
+              .then(results => {
+                Promise.all(results).then(result => {
+                  userDispatch({ type: call.signal, payload: result });
+                });
+              })
+              .catch(err => {
+                console.log(err);
               });
-            })
-            .catch(err => {
-              console.log(err);
-            });
+            return 0;
+          });
+          // getCompanyInfo(searchList)
+          //   .then(results => {
+          //     Promise.all(results).then(symbols => {
+          //       userDispatch({ type: "SYMBOLS", payload: symbols });
+          //     });
+          //   })
+          //   .catch(err => {
+          //     console.log(err);
+          //   });
 
-          getCompanyTweets(searchList)
-            .then(results => {
-              Promise.all(results).then(tweets => {
-                tweets.forEach(tweet => userDispatch({ type: "TWEETS", payload: tweet }));
-              });
-            })
-            .catch(err => {
-              console.log(err);
-            });
+          // getCompanyTweets(searchList)
+          //   .then(results => {
+          //     Promise.all(results).then(tweets => {
+          //       tweets.forEach(tweet => userDispatch({ type: "TWEETS", payload: tweet }));
+          //     });
+          //   })
+          //   .catch(err => {
+          //     console.log(err);
+          //   });
 
-          getCompanyTweetSummary(searchList)
-            .then(results => {
-              Promise.all(results).then(sums => {
-                sums.forEach(sum => userDispatch({ type: "TWEET_SUMMARY", payload: sum }));
-              });
-            })
-            .catch(err => {
-              console.log(err);
-            });
+          // getCompanyTweetSummary(searchList)
+          //   .then(results => {
+          //     Promise.all(results).then(sums => {
+          //       sums.forEach(sum => userDispatch({ type: "TWEET_SUMMARY", payload: sum }));
+          //     });
+          //   })
+          //   .catch(err => {
+          //     console.log(err);
+          //   });
 
           // const tickers = searchList.split(',');
           // const symbols = tickers.map(item => ({ symbol: item, sentiment: 25, lastNews: "", company: "COMPANY NAME", summary: "It is going pretty well.", lookup: false }));

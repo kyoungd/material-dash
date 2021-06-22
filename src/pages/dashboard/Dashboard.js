@@ -27,7 +27,7 @@ import Dot from "../../components/Sidebar/components/Dot";
 import BigStat from "./components/BigStat/BigStat";
 import Ticker from "../../components/Ticker/Ticker";
 import { useUserState, useUserDispatch } from "../../context/UserContext";
-
+import TableComponent from './components/Table/Table';
 
 function symbolCard(item, dispatch, selectedItem, classes) {
   try {
@@ -69,35 +69,68 @@ function symbolCard(item, dispatch, selectedItem, classes) {
   }
 }
 
-function getBigStat(userState) {
-
+function getTweetStat(userState) {
   const tweetSums = userState.tweetSummary[userState.selected];
-  const last30 = tweetSums ? tweetSums.slice(tweetSums.length - 12, tweetSums.length - 1) : 0;
-  const last60 = tweetSums ? tweetSums.slice(tweetSums.length - 24, tweetSums.lenth - 13) : 0;
-  const score30 = tweetSums ? last30.reduce((total, item) => total + item.tweet_score, 0) : 0;
-  const score60 = tweetSums ? last60.reduce((total, item) => total + item.tweet_score, 0) : 0;
-  const deltaScore = score60 !== 0 ? (score30 - score60) / score60 : 0;
-  const tweet30 = tweetSums ? last30.reduce((total, item) => total + item.tweet_count, 0) : 0;
-  const tweet60 = tweetSums ? last60.reduce((total, item) => total + item.tweet_count, 0) : 0;
+  const lastTweet30 = tweetSums ? tweetSums.slice(tweetSums.length - 12, tweetSums.length - 1) : 0;
+  const lastTweet60 = tweetSums ? tweetSums.slice(tweetSums.length - 24, tweetSums.lenth - 13) : 0;
+  const scoreTweet30 = tweetSums ? lastTweet30.reduce((total, item) => total + item.sentiment, 0) : 0;
+  const scoreTweet60 = tweetSums ? lastTweet60.reduce((total, item) => total + item.sentiment, 0) : 0;
+  const deltaTweetScore = scoreTweet60 !== 0 ? (scoreTweet30 - scoreTweet60) / scoreTweet60 : 0;
+  const tweet30 = tweetSums ? lastTweet30.reduce((total, item) => total + item.viewCount, 0) : 0;
+  const tweet60 = tweetSums ? lastTweet60.reduce((total, item) => total + item.viewCount, 0) : 0;
+  return {
+    count30: tweet30,
+    count60: tweet60,
+    delta: deltaTweetScore,
+    score30: scoreTweet30,
+    score60: scoreTweet60,
+    profitCount: false,
+    profitScore: false
+  }
+}
+
+function getNewsStat(userState) {
+  const newsSums = userState.newsSummary[userState.selected];
+  const lastNews30 = newsSums ? newsSums.slice(newsSums.length - 12, newsSums.length - 1) : 0;
+  const lastNews60 = newsSums ? newsSums.slice(newsSums.length - 24, newsSums.lenth - 13) : 0;
+  const scoreNews30 = newsSums ? lastNews30.reduce((total, item) => total + item.sentiment, 0) : 0;
+  const scoreNews60 = newsSums ? lastNews60.reduce((total, item) => total + item.sentiment, 0) : 0;
+  const deltaNewsScore = scoreNews60 !== 0 ? (scoreNews30 - scoreNews60) / scoreNews60 : 0;
+  const news30 = newsSums ? lastNews30.reduce((total, item) => total + item.viewCount, 0) : 0;
+  const news60 = newsSums ? lastNews60.reduce((total, item) => total + item.viewCount, 0) : 0;
+  return {
+    count30: news30,
+    count60: news60,
+    delta: deltaNewsScore,
+    score30: scoreNews30,
+    score60: scoreNews60,
+    profitCount: false,
+    profitScore: false
+  }
+}
+
+function getBigStat(userState) {
+  const tweet = getTweetStat(userState);
+  const news = getNewsStat(userState);
   const bigStat = [
     {
       product: "Tweets",
+      color: "primary",
       total: {
         monthly: 0,
         weekly: 0,
-        daily: Math.round(tweet30 + tweet60),
-        percent: { value: Math.round(deltaScore * 100), profit: false }
+        daily: Math.round(tweet.count30 + tweet.count60),
+        percent: { value: Math.round(tweet.deltaTweetScore * 100), profit: tweet.profitScore }
       },
-      color: "primary",
       messages: {
         monthly: { value: 0, profit: false },
         weekly: { value: 0, profit: true },
-        daily: { value: tweet30, profit: (tweet30 > tweet60) }
+        daily: { value: tweet.count30, profit: tweet.profitCount }
       },
       sentiment: {
         monthly: { value: 0, profit: false },
         weekly: { value: 0, profit: true },
-        daily: { value: Math.round(score30 * 100), profit: (score30 > score60) }
+        daily: { value: Math.round(tweet.score30 * 100), profit: tweet.profitScore }
       }
     },
     {
@@ -122,26 +155,68 @@ function getBigStat(userState) {
     },
     {
       product: "News",
+      color: "secondary",
       total: {
         monthly: 0,
         weekly: 0,
-        daily: 0,
-        percent: { value: 0, profit: true }
+        daily: Math.round(news.count30 + news.count60),
+        percent: { value: Math.round(news.deltaTweetScore * 100), profit: news.profitScore }
       },
-      color: "secondary",
       messages: {
-        monthly: { value: 0, profit: true },
-        weekly: { value: 0, profit: false },
-        daily: { value: 0, profit: false }
+        monthly: { value: 0, profit: false },
+        weekly: { value: 0, profit: true },
+        daily: { value: news.count30, profit: news.profitCount }
       },
       sentiment: {
         monthly: { value: 0, profit: false },
-        weekly: { value: 0, profit: false },
-        daily: { value: 0, profit: true }
+        weekly: { value: 0, profit: true },
+        daily: { value: Math.round(news.score30 * 100), profit: news.profitScore }
       }
     }
   ]
   return bigStat;
+}
+
+function tweetTable(userState) {
+  if (userState.selected === '')
+    return;
+  if (userState.length <= 0)
+    return;
+  if (userState.media !== "TWEETS")
+    return;
+  const item = Object.assign(...userState.tweets);
+  const data = item[userState.selected];
+  if (!data)
+    return;
+  const result = data.map(item =>
+    ({ ...item, status: item.sentimet_score > 0 ? 'success' : 'warning' })
+  );
+  return (
+    <Grid item xs={12}>
+      <TableComponent title='Tweets' data={result} />
+    </Grid>
+  );
+}
+
+function newsTable(userState) {
+  if (userState.selected === '')
+    return;
+  if (userState.length <= 0)
+    return;
+  if (userState.media !== "NEWS")
+    return;
+  const item = Object.assign(...userState.news);
+  const data = item[userState.selected];
+  if (!data)
+    return;
+  const result = data.map(item =>
+    ({ ...item, status: item.sentimet_score > 0 ? 'success' : 'warning' })
+  );
+  return (
+    <Grid item xs={12}>
+      <TableComponent title='News' data={result} />
+    </Grid>
+  );
 }
 
 export default function Dashboard(props) {
@@ -278,6 +353,8 @@ export default function Dashboard(props) {
             <BigStat {...stat} />
           </Grid>
         ))}
+        {tweetTable(userState)}
+        {newsTable(userState)}
       </Grid>
     </>
   );
@@ -309,10 +386,22 @@ function getMainChartData(userState) {
 
   var resultArray = [];
   if (Object.keys(userState.tweetSummary).length > 0 && userState.selected !== '') {
-    const summary = userState.tweetSummary[userState.selected];
+    let summary = [];
+    switch (userState.media) {
+      case 'TWEETS':
+        const tweets = Object.assign(...userState.tweetSummary);
+        summary = tweets[userState.selected];
+        break;
+      case "NEWS":
+        const news = Object.assign(...userState.newsSummary);
+        summary = news[userState.selected];
+        break;
+      default:
+        break;
+    }
     if (summary && summary.length > 0) {
-      const scores = summary.map(tweetSum => tweetSum.tweet_score);
-      const counts = summary.map(tweetSum => tweetSum.tweet_count);
+      const scores = summary.map(tweetSum => tweetSum.sentiment);
+      const counts = summary.map(tweetSum => tweetSum.viewCount);
       for (let i = 0; i < scores.length; i++) {
         resultArray.push({
           tablet: 0,

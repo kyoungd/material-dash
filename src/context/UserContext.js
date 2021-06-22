@@ -12,15 +12,19 @@ function userReducer(state, action) {
     case "SYMBOLS":
       return { ...state, symbols: action.payload };
     case "TWEETS":
-      const data1 = action.payload;
-      return { ...state, tweets: { ...state.tweets, ...data1 } };
+      return { ...state, tweets: action.payload };
     case "TWEET_SUMMARY":
-      const data2 = action.payload;
-      return { ...state, tweetSummary: { ...state.tweetSummary, ...data2 } };
+      return { ...state, tweetSummary: action.payload };
+    case "NEWS":
+      return { ...state, news: action.payload };
+    case "NEWS_SUMMARY":
+      return { ...state, newsSummary: action.payload };
     case "SETTINGS":
       return { ...state, settings: action.payload };
     case "SELECTION":
       return { ...state, selected: action.payload };
+    case "MEDIA":
+      return { ...state, media: action.payload };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -33,7 +37,10 @@ function UserProvider({ children }) {
     settings: {},
     tweets: {},
     tweetSummary: {},
+    news: {},
+    newsSummary: {},
     selected: "",
+    media: "",
   });
 
   return (

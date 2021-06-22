@@ -11,104 +11,114 @@ import useStyles from "./styles";
 // components
 import Widget from "../../../../components/Widget";
 import { Typography } from "../../../../components/Wrappers";
+import { useUserState, useUserDispatch } from "../../../../context/UserContext";
 
 export default function BigStat(props) {
   var { product, total, color, messages, sentiment } = props;
   var classes = useStyles();
   var theme = useTheme();
+  var userState = useUserState();
+  var userDispatch = useUserDispatch();
 
   // local
   var [value, setValue] = useState("daily");
 
   return (
-    <Widget
-      header={
-        <div className={classes.title}>
-          <Typography variant="h5">{product}</Typography>
+    <div
+      className={userState.media === props.product.toUpperCase() ? classes.notificationContainer : classes.none}
+      onClick={() => {
+        console.log('clicked BigStat...', props);
+        userDispatch({ type: "MEDIA", payload: props.product.toUpperCase() });
+      }} >
+      <Widget
+        header={
+          <div className={classes.title}>
+            <Typography variant="h5">{product}</Typography>
 
-          <Select
-            value={value}
-            onChange={e => setValue(e.target.value)}
-            input={
-              <Input
-                disableUnderline
-                classes={{ input: classes.selectInput }}
-              />
-            }
-            className={classes.select}
-          >
-            <MenuItem value="daily">Daily</MenuItem>
-            <MenuItem value="weekly">Weekly</MenuItem>
-            <MenuItem value="monthly">Monthly</MenuItem>
-          </Select>
-        </div>
-      }
-      upperTitle
-      bodyClass={classes.bodyWidgetOverflow}
-    >
-      <div className={classes.totalValueContainer}>
-        <div className={classes.totalValue}>
-          <Typography size="xxl" color="text" colorBrightness="secondary">
-            {total[value]}
-          </Typography>
-          <Typography color={total.percent.profit ? "success" : "secondary"}>
-            &nbsp;{total.percent.profit ? "+" : "-"}
-            {total.percent.value}%
-          </Typography>
-        </div>
-        <BarChart width={150} height={70} data={getRandomData()}>
-          <Bar
-            dataKey="value"
-            fill={theme.palette[color].main}
-            radius={10}
-            barSize={10}
-          />
-        </BarChart>
-      </div>
-      <div className={classes.bottomStatsContainer}>
-        <div className={classnames(classes.statCell, classes.borderRight)}>
-          <Grid container alignItems="center">
-            <Typography variant="h6">{messages[value].value}</Typography>
-            <ArrowForwardIcon
-              className={classnames(classes.profitArrow, {
-                [!messages[value].profit]: classes.profitArrowDanger,
-              })}
-            />
-          </Grid>
-          <Typography size="sm" color="text" colorBrightness="secondary">
-            messages
-          </Typography>
-        </div>
-        <div className={classes.statCell}>
-          <Grid container alignItems="center">
-            <Typography variant="h6">{sentiment[value].value}%</Typography>
-            <ArrowForwardIcon
-              className={classnames(classes.profitArrow, {
-                [!messages[value].profit]: classes.profitArrowDanger,
-              })}
-            />
-          </Grid>
-          <Typography size="sm" color="text" colorBrightness="secondary">
-            Sentiment
-          </Typography>
-        </div>
-        <div className={classnames(classes.statCell, classes.borderRight)}>
-          <Grid container alignItems="center">
-            <Typography variant="h6">
-              {messages[value].value * 10}
+            <Select
+              value={value}
+              onChange={e => setValue(e.target.value)}
+              input={
+                <Input
+                  disableUnderline
+                  classes={{ input: classes.selectInput }}
+                />
+              }
+              className={classes.select}
+            >
+              <MenuItem value="daily">Daily</MenuItem>
+              <MenuItem value="weekly">Weekly</MenuItem>
+              <MenuItem value="monthly">Monthly</MenuItem>
+            </Select>
+          </div>
+        }
+        upperTitle
+        bodyClass={classes.bodyWidgetOverflow}
+      >
+        <div className={classes.totalValueContainer}>
+          <div className={classes.totalValue}>
+            <Typography size="xxl" color="text" colorBrightness="secondary">
+              {total[value]}
             </Typography>
-            <ArrowForwardIcon
-              className={classnames(classes.profitArrow, {
-                [classes.profitArrowDanger]: !messages[value].profit,
-              })}
+            <Typography color={total.percent.profit ? "success" : "secondary"}>
+              &nbsp;{total.percent.profit ? "+" : "-"}
+              {total.percent.value}%
+            </Typography>
+          </div>
+          <BarChart width={150} height={70} data={getRandomData()}>
+            <Bar
+              dataKey="value"
+              fill={theme.palette[color].main}
+              radius={10}
+              barSize={10}
             />
-          </Grid>
-          <Typography size="sm" color="text" colorBrightness="secondary">
-            Views
-          </Typography>
+          </BarChart>
         </div>
-      </div>
-    </Widget>
+        <div className={classes.bottomStatsContainer}>
+          <div className={classnames(classes.statCell, classes.borderRight)}>
+            <Grid container alignItems="center">
+              <Typography variant="h6">{messages[value].value}</Typography>
+              <ArrowForwardIcon
+                className={classnames(classes.profitArrow, {
+                  [!messages[value].profit]: classes.profitArrowDanger,
+                })}
+              />
+            </Grid>
+            <Typography size="sm" color="text" colorBrightness="secondary">
+              messages
+            </Typography>
+          </div>
+          <div className={classes.statCell}>
+            <Grid container alignItems="center">
+              <Typography variant="h6">{sentiment[value].value}%</Typography>
+              <ArrowForwardIcon
+                className={classnames(classes.profitArrow, {
+                  [!messages[value].profit]: classes.profitArrowDanger,
+                })}
+              />
+            </Grid>
+            <Typography size="sm" color="text" colorBrightness="secondary">
+              Sentiment
+            </Typography>
+          </div>
+          <div className={classnames(classes.statCell, classes.borderRight)}>
+            <Grid container alignItems="center">
+              <Typography variant="h6">
+                {messages[value].value * 10}
+              </Typography>
+              <ArrowForwardIcon
+                className={classnames(classes.profitArrow, {
+                  [classes.profitArrowDanger]: !messages[value].profit,
+                })}
+              />
+            </Grid>
+            <Typography size="sm" color="text" colorBrightness="secondary">
+              Views
+            </Typography>
+          </div>
+        </div>
+      </Widget>
+    </div>
   );
 }
 
