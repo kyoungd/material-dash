@@ -112,65 +112,107 @@ function getNewsStat(userState) {
 function getBigStat(userState) {
   const tweet = getTweetStat(userState);
   const news = getNewsStat(userState);
+  const data = { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "FFHL", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 4 };
+
   const bigStat = [
     {
-      product: "Tweets",
+      product: "Data",
       color: "primary",
       total: {
         monthly: 0,
         weekly: 0,
-        daily: Math.round(tweet.count30 + tweet.count60),
-        percent: { value: Math.round(tweet.deltaTweetScore * 100), profit: tweet.profitScore }
+        daily: data["Total"],
+        percent: { value: data["Total"], profit: true }
       },
-      messages: {
+      firstdata: {
         monthly: { value: 0, profit: false },
         weekly: { value: 0, profit: true },
-        daily: { value: tweet.count30, profit: tweet.profitCount }
+        daily: { title: "score", value: data["Score"], profit: true }
       },
       sentiment: {
         monthly: { value: 0, profit: false },
         weekly: { value: 0, profit: true },
-        daily: { value: Math.round(tweet.score30 * 100), profit: tweet.profitScore }
+        daily: { title: "candle-stick", value: data["CandleStickPattern"], profit: false }
+      },
+      third: {
+        monthly: { value: 0, profit: false },
+        weekly: { value: 0, profit: true },
+        daily: { title: "price-action", value: data["PriceAction"], profit: true }
       }
     },
     {
-      product: "Reddit",
+      product: "Analysis",
+      color: "warning",
       total: {
         monthly: 0,
         weekly: 0,
         daily: 0,
         percent: { value: 0, profit: true }
       },
-      color: "warning",
-      messages: {
+      firstdata: {
         monthly: { value: 0, profit: true },
         weekly: { value: 0, profit: true },
-        daily: { value: 0, profit: false }
+        daily: { title: "multi-frame", value: data["MultiTimeFrame"], profit: false }
       },
       sentiment: {
         monthly: { value: 0, profit: true },
         weekly: { value: 0, profit: false },
-        daily: { value: 0, profit: false }
+        daily: { title: "fibonacci", value: data["FibonacciPattern"], profit: false }
+      },
+      third: {
+        monthly: { value: 0, profit: false },
+        weekly: { value: 0, profit: true },
+        daily: { title: "divergence", value: data["RsiAction"], profit: true }
       }
     },
     {
-      product: "News",
+      product: "Momemntum",
       color: "secondary",
       total: {
         monthly: 0,
         weekly: 0,
-        daily: Math.round(news.count30 + news.count60),
-        percent: { value: Math.round(news.deltaTweetScore * 100), profit: news.profitScore }
+        daily: 0,
+        percent: { value: 0, profit: false }
       },
-      messages: {
+      firstdata: {
         monthly: { value: 0, profit: false },
         weekly: { value: 0, profit: true },
-        daily: { value: news.count30, profit: news.profitCount }
+        daily: { title: "breakout", value: data["BreakoutMomentum"], profit: true }
       },
       sentiment: {
         monthly: { value: 0, profit: false },
         weekly: { value: 0, profit: true },
-        daily: { value: Math.round(news.score30 * 100), profit: news.profitScore }
+        daily: { title: "with-trend", value: data["WithTrend"], profit: true }
+      },
+      third: {
+        monthly: { value: 0, profit: false },
+        weekly: { value: 0, profit: true },
+        daily: { title: "new-trend", value: data["FreshTrend"], profit: false }
+      }
+    },
+    {
+      product: "Levels",
+      color: "secondary",
+      total: {
+        monthly: 0,
+        weekly: 0,
+        daily: 0,
+        percent: { value: 0, profit: true }
+      },
+      firstdata: {
+        monthly: { value: 0, profit: false },
+        weekly: { value: 0, profit: true },
+        daily: { title: "key-level", value: data["KeyLevel"], profit: false }
+      },
+      sentiment: {
+        monthly: { value: 0, profit: false },
+        weekly: { value: 0, profit: true },
+        daily: { title: "vwap", value: data["Vwap"], profit: true }
+      },
+      third: {
+        monthly: { value: 0, profit: false },
+        weekly: { value: 0, profit: true },
+        daily: { title: "ema-50", value: data["Ema50"], profit: false }
       }
     }
   ]
@@ -349,7 +391,7 @@ export default function Dashboard(props) {
           </Widget>
         </Grid>
         {getBigStat(userState).map(stat => (
-          <Grid item md={4} sm={6} xs={12} key={stat.product}>
+          <Grid item md={3} sm={6} xs={12} key={stat.product}>
             <BigStat {...stat} />
           </Grid>
         ))}

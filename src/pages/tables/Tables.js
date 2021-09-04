@@ -7,6 +7,7 @@ import MUIDataTable from "mui-datatables";
 import PageTitle from "../../components/PageTitle";
 import Widget from "../../components/Widget";
 import Table from "../dashboard/components/Table/Table";
+import TableStudySummary from "../dashboard/components/Table/TableStudySummary";
 
 // data
 import mock from "../dashboard/mock";
@@ -56,6 +57,11 @@ export default function Tables() {
         <Grid item xs={12}>
           <Widget title="Material-UI Table" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
             <Table data={mock.table} />
+          </Widget>
+        </Grid>
+        <Grid item xs={12}>
+          <Widget title="Material-UI Table" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+            <TableStudySummary />
           </Widget>
         </Grid>
       </Grid>

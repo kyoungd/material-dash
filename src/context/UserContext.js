@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
@@ -68,7 +69,11 @@ function useUserDispatch() {
   return context;
 }
 
-export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
+export { UserProvider, useUserState, useUserDispatch, loginUser, signOut, registerUser };
+
+async function loginAuthenticate(userEmail, password) {
+};
+
 
 // ###########################################################
 
@@ -77,16 +82,67 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
   setIsLoading(true);
 
   if (!!login && !!password) {
-    setTimeout(() => {
-      localStorage.setItem('id_token', 1)
-      setError(null)
-      setIsLoading(false)
-      dispatch({ type: 'LOGIN_SUCCESS' })
+    axios
+      .post('http://localhost:1337/auth/local', {
+        identifier: login,
+        password: password,
+      })
+      .then(response => {
+        // Handle success.
+        console.log('User profile', response.data.user);
+        console.log('User token', response.data.jwt);
+        localStorage.setItem('id_token', response.data.jwt)
+        setError(null)
+        setIsLoading(false)
+        dispatch({ type: 'LOGIN_SUCCESS', payload: response.data.user })
 
-      history.push('/app/dashboard')
-    }, 2000);
+        history.push('/app/dashboard')
+      })
+      .catch(error => {
+        // Handle error.
+        console.log('An error occurred:', error.response);
+      });
+
+    // setTimeout(() => {
+    //   localStorage.setItem('id_token', 1)
+    //   setError(null)
+    //   setIsLoading(false)
+    //   dispatch({ type: 'LOGIN_SUCCESS' })
+
+    //   history.push('/app/dashboard')
+    // }, 2000);
   } else {
     dispatch({ type: "LOGIN_FAILURE" });
+    setError(true);
+    setIsLoading(false);
+  }
+}
+
+function registerUser(dispatch, name, login, password, history, setIsLoading, setError) {
+  setError(false);
+  setIsLoading(true);
+  if (!!name && !!login && !!password) {
+    axios
+      .post('http://localhost:1337/auth/local/register', {
+        username: name,
+        email: login,
+        password: password,
+      })
+      .then(response => {
+        // Handle success.
+        console.log('User profile', response.data.user);
+        console.log('User token', response.data.jwt);
+        setError(null)
+        setIsLoading(false)
+        dispatch({ type: 'REGISTRATION_SUCCESS', payload: response.data.user })
+        history.push('/app/dashboard')
+      })
+      .catch(error => {
+        // Handle error.
+        console.log('An error occurred:', error.response);
+      });
+  } else {
+    dispatch({ type: "REGISTRATION_FAILURE" });
     setError(true);
     setIsLoading(false);
   }
