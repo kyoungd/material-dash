@@ -110,8 +110,6 @@ function getNewsStat(userState) {
 }
 
 function getBigStat(userState) {
-  const tweet = getTweetStat(userState);
-  const news = getNewsStat(userState);
   const data = { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "FFHL", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 4 };
 
   const bigStat = [

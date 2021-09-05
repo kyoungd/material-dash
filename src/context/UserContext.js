@@ -42,6 +42,8 @@ function UserProvider({ children }) {
     newsSummary: {},
     selected: "",
     media: "",
+    studies: ['STUDYTHREEBARSCORE'],
+    studyResults: []
   });
 
   return (
@@ -83,7 +85,7 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
 
   if (!!login && !!password) {
     axios
-      .post('http://localhost:1337/auth/local', {
+      .post(process.env.ACCESS_SERVER_URL || 'http://localhost:1337/auth/local', {
         identifier: login,
         password: password,
       })
