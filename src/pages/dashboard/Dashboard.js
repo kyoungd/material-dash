@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { io } from "socket.io-client";
 import {
   Grid,
   Select,
@@ -28,6 +29,9 @@ import BigStat from "./components/BigStat/BigStat";
 import Ticker from "../../components/Ticker/Ticker";
 import { useUserState, useUserDispatch } from "../../context/UserContext";
 import TableComponent from './components/Table/Table';
+import Chart from './components/Chart';
+import { getStockData } from "./components/util";
+import TableStudySummary from './components/Table/TableStudySummary';
 
 function symbolCard(item, dispatch, selectedItem, classes) {
   try {
@@ -69,48 +73,8 @@ function symbolCard(item, dispatch, selectedItem, classes) {
   }
 }
 
-function getTweetStat(userState) {
-  const tweetSums = userState.tweetSummary[userState.selected];
-  const lastTweet30 = tweetSums ? tweetSums.slice(tweetSums.length - 12, tweetSums.length - 1) : 0;
-  const lastTweet60 = tweetSums ? tweetSums.slice(tweetSums.length - 24, tweetSums.lenth - 13) : 0;
-  const scoreTweet30 = tweetSums ? lastTweet30.reduce((total, item) => total + item.sentiment, 0) : 0;
-  const scoreTweet60 = tweetSums ? lastTweet60.reduce((total, item) => total + item.sentiment, 0) : 0;
-  const deltaTweetScore = scoreTweet60 !== 0 ? (scoreTweet30 - scoreTweet60) / scoreTweet60 : 0;
-  const tweet30 = tweetSums ? lastTweet30.reduce((total, item) => total + item.viewCount, 0) : 0;
-  const tweet60 = tweetSums ? lastTweet60.reduce((total, item) => total + item.viewCount, 0) : 0;
-  return {
-    count30: tweet30,
-    count60: tweet60,
-    delta: deltaTweetScore,
-    score30: scoreTweet30,
-    score60: scoreTweet60,
-    profitCount: false,
-    profitScore: false
-  }
-}
-
-function getNewsStat(userState) {
-  const newsSums = userState.newsSummary[userState.selected];
-  const lastNews30 = newsSums ? newsSums.slice(newsSums.length - 12, newsSums.length - 1) : 0;
-  const lastNews60 = newsSums ? newsSums.slice(newsSums.length - 24, newsSums.lenth - 13) : 0;
-  const scoreNews30 = newsSums ? lastNews30.reduce((total, item) => total + item.sentiment, 0) : 0;
-  const scoreNews60 = newsSums ? lastNews60.reduce((total, item) => total + item.sentiment, 0) : 0;
-  const deltaNewsScore = scoreNews60 !== 0 ? (scoreNews30 - scoreNews60) / scoreNews60 : 0;
-  const news30 = newsSums ? lastNews30.reduce((total, item) => total + item.viewCount, 0) : 0;
-  const news60 = newsSums ? lastNews60.reduce((total, item) => total + item.viewCount, 0) : 0;
-  return {
-    count30: news30,
-    count60: news60,
-    delta: deltaNewsScore,
-    score30: scoreNews30,
-    score60: scoreNews60,
-    profitCount: false,
-    profitScore: false
-  }
-}
-
-function getBigStat(userState) {
-  const data = { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "FFHL", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 4 };
+function getBigStat(data) {
+  // const data = { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "FFHL", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 4 };
 
   const bigStat = [
     {
@@ -259,7 +223,74 @@ function newsTable(userState) {
   );
 }
 
+function isArray(a) {
+  return (!!a) && (a.constructor === Array);
+};
+
 export default function Dashboard(props) {
+  const [socket, setSocket] = useState(null);
+  const [threeBarScore, setThreeBarScore] = useState({});
+  const [stockData, setStockData] = useState({});
+  const [studyData, setStudyData] = useState({});
+
+  // establish socket connection
+  useEffect(() => {
+    setSocket(io('http://localhost:3001'));
+
+    // CLEAN UP THE EFFECT
+    return () => socket.disconnect();
+
+  }, []);
+
+  // subscribe to the socket event
+  useEffect(() => {
+    if (!socket) return;
+
+    const username = "TEST-ROOM";
+    const room = "STUDYTHREEBARSCORE";
+
+    socket.on('connection', () => {
+      console.log('connected');
+    });
+
+    // join chatroom
+    socket.emit("joinRoom", { username, room });
+
+    // get room and users
+    socket.on("roomUsers", ({ room, users }) => {
+      console.log(room);
+      console.log(users);
+    });
+
+    // message from server
+    socket.on("message", (message) => {
+      try {
+        const scores = JSON.parse(message.text);
+        if (isArray(scores)) {
+          setThreeBarScore(scores);
+          console.log(message.text);
+        }
+      } catch { }
+    });
+
+  }, [socket]);
+
+
+  // useEffect(() => {
+  //   getStockData().then(data => {
+  //     console.log('stock1: ', data);
+  //     setStockData(data);
+  //   });
+  // }, []);
+
+  const stockSelected = (data) => {
+    setStockData(data);
+    getStockData(data["Symbol"]).then(stock => {
+      console.log('stock1: ', stock);
+      setStockData(stock);
+    });
+  }
+
   var classes = useStyles();
   var theme = useTheme();
   var userState = useUserState();
@@ -270,6 +301,8 @@ export default function Dashboard(props) {
   // local
   var [mainChartState, setMainChartState] = useState("monthly");
 
+  console.log('stock2: ', isArray(stockData));
+  console.log('stock2: ', stockData);
   return (
     <>
       <PageTitle title="Dashboard" button={<Button
@@ -289,6 +322,9 @@ export default function Dashboard(props) {
       </div>
       <Grid container spacing={4}>
         <Grid item xs={12}>
+          {
+            threeBarScore != null && isArray(threeBarScore) ? <TableStudySummary data={threeBarScore} clickCallback={stockSelected} /> : <div>.Load...ThreeBar...</div>
+          }
           <Widget
             bodyClass={classes.mainChartBody}
             header={
@@ -341,54 +377,12 @@ export default function Dashboard(props) {
               </div>
             }
           >
-            <ResponsiveContainer width="100%" minWidth={500} height={350}>
-              <ComposedChart
-                margin={{ top: 0, right: -15, left: -15, bottom: 0 }}
-                data={mainChartData}
-              >
-                <YAxis
-                  ticks={[0, 1, 2, 3]}
-                  tick={{ fill: theme.palette.text.hint + "80", fontSize: 14 }}
-                  stroke={theme.palette.text.hint + "80"}
-                  tickLine={false}
-                />
-                <XAxis
-                  tickFormatter={i => i + 1}
-                  tick={{ fill: theme.palette.text.hint + "80", fontSize: 14 }}
-                  stroke={theme.palette.text.hint + "80"}
-                  tickLine={false}
-                />
-                <Area
-                  type="natural"
-                  dataKey="desktop"
-                  fill={theme.palette.background.light}
-                  strokeWidth={0}
-                  activeDot={false}
-                />
-                <Line
-                  type="natural"
-                  dataKey="mobile"
-                  stroke={theme.palette.primary.main}
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={false}
-                />
-                <Line
-                  type="linear"
-                  dataKey="tablet"
-                  stroke={theme.palette.warning.main}
-                  strokeWidth={2}
-                  dot={{
-                    stroke: theme.palette.warning.dark,
-                    strokeWidth: 2,
-                    fill: theme.palette.warning.main,
-                  }}
-                />
-              </ComposedChart>
-            </ResponsiveContainer>
+            {
+              stockData != null && isArray(stockData) ? <Chart type='svg' data={stockData} /> : <div>.Loading...</div>
+            }
           </Widget>
         </Grid>
-        {getBigStat(userState).map(stat => (
+        {getBigStat(studyData).map(stat => (
           <Grid item md={3} sm={6} xs={12} key={stat.product}>
             <BigStat {...stat} />
           </Grid>
@@ -400,30 +394,7 @@ export default function Dashboard(props) {
   );
 }
 
-// #######################################################################
-function getRandomData(length, min, max, multiplier = 10, maxDiff = 10) {
-  var array = new Array(length).fill();
-  let lastValue;
-
-  return array.map((item, index) => {
-    let randomValue = Math.floor(Math.random() * multiplier + 1);
-
-    while (
-      randomValue <= min ||
-      randomValue >= max ||
-      (lastValue && randomValue - lastValue > maxDiff)
-    ) {
-      randomValue = Math.floor(Math.random() * multiplier + 1);
-    }
-
-    lastValue = randomValue;
-
-    return { value: randomValue };
-  });
-}
-
 function getMainChartData(userState) {
-
   var resultArray = [];
   if (Object.keys(userState.tweetSummary).length > 0 && userState.selected !== '') {
     let summary = [];
@@ -451,6 +422,28 @@ function getMainChartData(userState) {
       }
     }
   }
+
+  // // #######################################################################
+  // function getRandomData(length, min, max, multiplier = 10, maxDiff = 10) {
+  //   var array = new Array(length).fill();
+  //   let lastValue;
+
+  //   return array.map((item, index) => {
+  //     let randomValue = Math.floor(Math.random() * multiplier + 1);
+
+  //     while (
+  //       randomValue <= min ||
+  //       randomValue >= max ||
+  //       (lastValue && randomValue - lastValue > maxDiff)
+  //     ) {
+  //       randomValue = Math.floor(Math.random() * multiplier + 1);
+  //     }
+
+  //     lastValue = randomValue;
+
+  //     return { value: randomValue };
+  //   });
+  // }
 
   // var tablet = getRandomData(31, 3500, 6500, 7500, 1000);
   // var desktop = getRandomData(31, 1500, 7500, 7500, 1500);
