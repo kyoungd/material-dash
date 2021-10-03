@@ -78,4 +78,4 @@ async function getCompanyNewsSummary(symbols) {
     return await symbols.split(',').map(async symbol => await getNewsSummary(symbol.trim()));
 }
 
-module.exports = { getThinkScript, getCompanyInfo, getCompanyTweets, getCompanyTweetSummary, getCompanyNews, getCompanyNewsSummary };
+export { getThinkScript, getCompanyInfo, getCompanyTweets, getCompanyTweetSummary, getCompanyNews, getCompanyNewsSummary }

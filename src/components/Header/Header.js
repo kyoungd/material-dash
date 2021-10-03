@@ -26,7 +26,6 @@ import useStyles from "./styles";
 import { Badge, Typography } from "../Wrappers";
 import Notification from "../Notification/Notification";
 import UserAvatar from "../UserAvatar/UserAvatar";
-
 import { getCompanyInfo, getCompanyTweets, getCompanyTweetSummary, getCompanyNews, getCompanyNewsSummary } from "../../context/Api";
 
 
