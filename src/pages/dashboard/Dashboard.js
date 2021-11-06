@@ -128,7 +128,7 @@ export default function Dashboard(props) {
 
   // establish socket connection
   useEffect(() => {
-    setSocket(io('http://localhost:3001'));
+    setSocket(io(process.env.SERVER_STREAM || 'http://localhost:3001'));
 
     // CLEAN UP THE EFFECT
     return () => socket.disconnect();
@@ -263,9 +263,12 @@ export default function Dashboard(props) {
                   }
                   autoWidth
                 >
-                  <MenuItem value="daily">Daily</MenuItem>
-                  <MenuItem value="weekly">Weekly</MenuItem>
-                  <MenuItem value="monthly">Monthly</MenuItem>
+                  <MenuItem value="1Min">1 Min</MenuItem>
+                  <MenuItem value="2Min">2 Min</MenuItem>
+                  <MenuItem value="5Min">5 Min</MenuItem>
+                  <MenuItem value="10Min">10 Min</MenuItem>
+                  <MenuItem value="1Hour">Hourly</MenuItem>
+                  <MenuItem value="1Day">Daily</MenuItem>
                 </Select>
               </div>
             }

@@ -24,7 +24,7 @@ function getStudySummary(data) {
   console.log(test);
   // let data = [{ "KeyName": "STUDYTHREEBARSCORE", "Symbol": "FFHL", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "HTOO", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "AKYA", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "SQBG", "Score": 2, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "RANI", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "IMPL", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "BTCM", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "ABSI", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "FCUV", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "XENE", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "MNTK", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "AGIL", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "UGRO", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "CARV", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "ABOS", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }];
   const dataTable = data.map(item => {
-    item['Timestamp'] = new Date();
+    item['Timestamp'] = new Date(item['timestamp'] * 1000);
     item['Status'] = 'Active'
     item['id'] = uuidv4()
     return item;
@@ -36,6 +36,8 @@ export default function TableComponent({ data, clickCallback }) {
   const title = "THREE BAR STUDY"
   const ranking = getStudySummary(data);
   const classes = useStyles();
+  if (ranking == null || ranking.length <= 0)
+    return <div />
   var keys = Object.keys(ranking[0]).map(i => i.toUpperCase());
   keys.shift(); // delete "id" key
 
@@ -48,12 +50,14 @@ export default function TableComponent({ data, clickCallback }) {
               <TableRow key="0">
                 <TableCell>DATE</TableCell>
                 <TableCell>SYMBOL</TableCell>
+                <TableCell>PERIOD</TableCell>
                 <TableCell>SCORE</TableCell>
               </TableRow>
               {ranking.map((rate) => (
                 <TableRow key={rate.id}>
                   <TableCell>{moment(rate.Timestamp).format("MM/DD HH:mm:ss")}</TableCell>
-                  <TableCell>{rate.Symbol}</TableCell>
+                  <TableCell>{rate.symbol}</TableCell>
+                  <TableCell>{rate.period}</TableCell>
                   <TableCell onClick={e => {
                     clickCallback(rate);
                   }}>
