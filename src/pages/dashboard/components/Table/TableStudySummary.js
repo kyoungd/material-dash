@@ -48,13 +48,16 @@ export default function TableComponent({ data, clickCallback }) {
           <Table className="mb-0">
             <TableBody>
               <TableRow key="0">
+                <TableCell>SECONDS</TableCell>
                 <TableCell>DATE</TableCell>
                 <TableCell>SYMBOL</TableCell>
                 <TableCell>PERIOD</TableCell>
                 <TableCell>SCORE</TableCell>
+                <TableCell>VOLUME</TableCell>
               </TableRow>
               {ranking.map((rate) => (
                 <TableRow key={rate.id}>
+                  <TableCell>{rate.data[0].seconds} secs</TableCell>
                   <TableCell>{moment(rate.Timestamp).format("MM/DD HH:mm:ss")}</TableCell>
                   <TableCell>{rate.symbol}</TableCell>
                   <TableCell>{rate.period}</TableCell>
@@ -63,11 +66,11 @@ export default function TableComponent({ data, clickCallback }) {
                   }}>
                     <Chip label={rate.Score.toString()} classes={{ root: classes[states[rate.Status.toLowerCase()]] }} />
                   </TableCell>
+                  <TableCell>{rate.data[0].v.toString()}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-
         </Widget>
       </Grid>
     </Grid>
