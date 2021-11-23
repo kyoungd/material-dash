@@ -58,7 +58,7 @@ export default function TableComponent({ data, clickCallback }) {
               {ranking.map((rate) => (
                 <TableRow key={rate.id}>
                   <TableCell>{rate.data[0].seconds} secs</TableCell>
-                  <TableCell>{moment(rate.Timestamp).format("MM/DD HH:mm:ss")}</TableCell>
+                  <TableCell>{moment(rate.Timestamp).format("HH:mm:ss")}</TableCell>
                   <TableCell>{rate.symbol}</TableCell>
                   <TableCell>{rate.period}</TableCell>
                   <TableCell onClick={e => {

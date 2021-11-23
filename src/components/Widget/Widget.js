@@ -32,10 +32,12 @@ export default function Widget({
   var [isMoreMenuOpen, setMoreMenuOpen] = useState(false);
 
   return (
-    <div className={classes.widgetWrapper} style={style && {...style}}>
-      <Paper className={classes.paper} classes={{ root: classnames(classes.widgetRoot, {
-        [classes.noWidgetShadow]: noWidgetShadow
-        }) }}>
+    <div className={classes.widgetWrapper} style={style && { ...style }}>
+      <Paper className={classes.paper} classes={{
+        root: classnames(classes.widgetRoot, {
+          [classes.noWidgetShadow]: noWidgetShadow
+        })
+      }}>
         <div className={classnames(classes.widgetHeader, {
           [classes.noPadding]: noHeaderPadding,
           [headerClass]: headerClass
@@ -54,7 +56,7 @@ export default function Widget({
                   aria-owns="widget-menu"
                   aria-haspopup="true"
                   onClick={() => setMoreMenuOpen(true)}
-                  buttonRef={setMoreButtonRef}
+                  ref={setMoreButtonRef}
                 >
                   <MoreIcon />
                 </IconButton>
