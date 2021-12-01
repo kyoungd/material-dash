@@ -1,26 +1,63 @@
 
+function getTimeframe(timeperiod) {
+    // lowercase
+    switch (timeperiod.toLowerCase()) {
+        case "2min":
+        case "5min":
+        case "10min":
+            return 'NEWS_SEARCH_4_hour_ago';
+        case "30min":
+        case "1hour":
+        case "4hour":
+            return 'NEWS_SEARCH_1_day_ago';
+        case "1day":
+        default:
+            return 'NEWS_SEARCH_3_day_ago';
+    }
+}
+
 function getBigStat(data) {
     // const data = { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "FFHL", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 4 };
 
+    let sentiment = 0;
+    let yahooSentiment = 0;
+    let tweetSentiment = 0;
+    let googleSentiment = 0;
+    if (Object.keys(data).length === 0 && data.constructor === Object) {
+        sentiment = 0;
+    }
+    else {
+        const tf = getTimeframe(data.period);
+        const smt = data.news.news.find(item => item.timeframe === tf);
+        if (smt) {
+            sentiment = smt.sentiment;
+            yahooSentiment = smt.yahoo.sentiment;
+            tweetSentiment = smt.twitter.sentiment;
+            googleSentiment = smt.google.sentiment;
+        }
+    }
+    const score = data && data.point ? data.point : 0;
+    // const sentiment = data && data.sentiment ? data.sentiment : 0;
+    const vol = data && data.trade && data.trade.volume ? data.trade.volume : 0;
     const bigStat = [
         {
-            product: "Data",
+            product: "KPI",
             color: "primary",
             total: {
                 monthly: 0,
                 weekly: 0,
-                daily: data["Total"],
-                percent: { value: data["Total"], profit: true }
+                daily: score,
+                percent: { value: score, profit: true }
             },
             firstdata: {
                 monthly: { value: 0, profit: false },
                 weekly: { value: 0, profit: true },
-                daily: { title: "score", value: data["Score"], profit: true }
+                daily: { title: "sentiment", value: sentiment, profit: true }
             },
             sentiment: {
                 monthly: { value: 0, profit: false },
                 weekly: { value: 0, profit: true },
-                daily: { title: "candle-stick", value: data["CandleStickPattern"], profit: false }
+                daily: { title: "volume", value: vol, profit: false }
             },
             third: {
                 monthly: { value: 0, profit: false },
@@ -29,32 +66,32 @@ function getBigStat(data) {
             }
         },
         {
-            product: "Analysis",
+            product: "News",
             color: "warning",
             total: {
                 monthly: 0,
                 weekly: 0,
                 daily: 0,
-                percent: { value: 0, profit: true }
+                percent: { value: sentiment, profit: true }
             },
             firstdata: {
                 monthly: { value: 0, profit: true },
                 weekly: { value: 0, profit: true },
-                daily: { title: "multi-frame", value: data["MultiTimeFrame"], profit: false }
+                daily: { title: "yahoo", value: yahooSentiment, profit: false }
             },
             sentiment: {
                 monthly: { value: 0, profit: true },
                 weekly: { value: 0, profit: false },
-                daily: { title: "fibonacci", value: data["FibonacciPattern"], profit: false }
+                daily: { title: "tweet", value: tweetSentiment, profit: false }
             },
             third: {
                 monthly: { value: 0, profit: false },
                 weekly: { value: 0, profit: true },
-                daily: { title: "divergence", value: data["RsiAction"], profit: true }
+                daily: { title: "google", value: googleSentiment, profit: true }
             }
         },
         {
-            product: "Momemntum",
+            product: "Momentum",
             color: "secondary",
             total: {
                 monthly: 0,

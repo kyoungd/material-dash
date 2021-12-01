@@ -85,7 +85,7 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
 
   if (!!login && !!password) {
     axios
-      .post(process.env.SERVER_LOGIN || 'http://localhost:1337/auth/local', {
+      .post(process.env.REACT_APP_SERVER_LOGIN || 'http://localhost:1337/auth/local', {
         identifier: login,
         password: password,
       })
@@ -125,7 +125,7 @@ function registerUser(dispatch, name, login, password, history, setIsLoading, se
   setIsLoading(true);
   if (!!name && !!login && !!password) {
     axios
-      .post(process.env.SERVER_REGISTER || 'http://localhost:1337/auth/local/register', {
+      .post(process.env.REACT_APP_SERVER_REGISTER || 'http://localhost:1337/auth/local/register', {
         username: name,
         email: login,
         password: password,

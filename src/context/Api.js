@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const ENDPOINT = process.env.SERVER_ENDPOINT || "http://localhost:1337";
+const ENDPOINT = process.env.REACT_APP_SERVER_ENDPOINT || "http://localhost:1337";
 
 
 async function getThinkScript(scriptName, symbol, period) {
