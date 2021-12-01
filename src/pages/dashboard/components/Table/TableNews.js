@@ -9,40 +9,46 @@ import {
     Grid
 } from "@material-ui/core";
 import moment from 'moment';
+import useStyles from "../../styles";
 import { v4 as uuidv4 } from "uuid";
 import Widget from "../../../../components/Widget/Widget";
-import useStyles from "../../styles";
 
 export default function TableNews({ news }) {
-    const [newsSource, setNewsSource] = useState('YAHOO');
-    const classes = useStyles();
 
-    if (news == null || news.length <= 0)
+    const classes = useStyles();
+    const [newsSource, setNewsSource] = useState('YAHOO');
+    if (news == null || Object.entries(news).length <= 0)
         return <div />
 
-    let stories = news.tweet;
+    let stories = news.twitters;
     switch (newsSource) {
         case 'YAHOO':
-            stories = news.yahoo;
+            stories = news.yahoos;
             break;
         case 'GOOGLE':
-            stories = news.google;
+            stories = news.googles;
             break;
         case 'TWEET':
         default:
-            stories = news.tweet;
+            stories = news.twitters;
             break;
     }
 
     return (
         <Grid container spacing={4}>
             <Grid item xs={12}>
-                <div className={classes.margin}>
-                    <Button color={newsSource === 'YAHOO' ? "primary" : "secondary"}>Yahoo Finance</Button>
-                    <Button color={newsSource === 'GOOGLE' ? "primary" : "secondary"}>Google</Button>
-                    <Button color={newsSource === 'TWEET' ? "primary" : "secondary"}>Tweet</Button>
-                </div>
                 <Widget title="NEWS" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                    <div className={classes.margin}>
+                        <Button
+                            color={newsSource === 'YAHOO' ? "primary" : "secondary"}
+                            onClick={() => setNewsSource('YAHOO')}>Yahoo Finance</Button>
+                        <Button
+                            color={newsSource === 'GOOGLE' ? "primary" : "secondary"}
+                            onClick={() => setNewsSource('GOOGLE')}>Google Finance</Button>
+                        <Button
+                            color={newsSource === 'TWEET' ? "primary" : "secondary"}
+                            onClick={() => setNewsSource('TWEET')}>Tweets</Button>
+                    </div>
                     <Table className="mb-0">
                         <TableBody>
                             <TableRow key="0">
@@ -58,7 +64,7 @@ export default function TableNews({ news }) {
                                     <TableCell>{story.title}</TableCell>
                                     <TableCell>{story.description}</TableCell>
                                     <TableCell>{story.sentiment}</TableCell>
-                                    <TableCell><a href={story.link} rel="noreferrer">LINK</a></TableCell>
+                                    <TableCell><a href={story.link} target="_blank" rel="noreferrer">LINK</a></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

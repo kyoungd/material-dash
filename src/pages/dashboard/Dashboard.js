@@ -30,7 +30,7 @@ import Ticker from "../../components/Ticker/Ticker";
 import { useUserState, useUserDispatch } from "../../context/UserContext";
 import TableComponent from './components/Table/Table';
 import Chart from './components/Chart';
-import { getStockData } from "./components/util";
+import { getStockData, getNewsData } from "./components/util";
 import TableStudySummary from './components/Table/TableStudySummary';
 import getBigStat from './bigStat';
 import { ScreenShare } from "@material-ui/icons";
@@ -126,6 +126,7 @@ export default function Dashboard(props) {
   const [socket, setSocket] = useState(null);
   const [threeBarScore, setThreeBarScore] = useState({});
   const [newsData, setNewsData] = useState({});
+  const [newsDetail, setNewsDetail] = useState({});
   const [stockData, setStockData] = useState({});
   const [studyData, setStudyData] = useState({});
 
@@ -191,6 +192,20 @@ export default function Dashboard(props) {
       console.log('stock1: ', stock);
       setStockData(stock);
     });
+    const mode = process.env.REACT_APP_SERVER_MODE;
+    if (mode === 'DEBUG') {
+      const newsDetail = require('./news.json');
+      setNewsDetail(newsDetail);
+    }
+    else if (process.env.REACT_APP_NEWS_URL && process.env.REACT_APP_NEWS_URL !== '') {
+      getNewsData(data["symbol"]).then(news => {
+        console.log('news1: ', news);
+        setNewsDetail(newsDetail);
+      });
+    }
+    else {
+      setNewsDetail(newsDetail);
+    }
   }
 
   var classes = useStyles();
@@ -199,7 +214,6 @@ export default function Dashboard(props) {
   var userDispatch = useUserDispatch();
 
   const mainChartData = getMainChartData(userState);
-
   // local
   var [mainChartState, setMainChartState] = useState("monthly");
 
@@ -292,6 +306,7 @@ export default function Dashboard(props) {
             <BigStat {...stat} />
           </Grid>
         ))}
+        <TableNews news={newsDetail} />
       </Grid>
     </>
   );
