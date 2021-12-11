@@ -29,6 +29,7 @@ import Typography from "../../pages/typography";
 import Notifications from "../../pages/notifications";
 import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
+import Stacks from "../../pages/stacks";
 import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
 import Settings from "../../pages/settings/Settings";
@@ -58,6 +59,7 @@ function Layout(props) {
             <Route path="/app/settings" component={Settings} />
             <Route path="/app/typography" component={Typography} />
             <Route path="/app/tables" component={Tables} />
+            <Route path="/app/stacks" component={Stacks} />
             <Route path="/app/notifications" component={Notifications} />
             <Route
               exact
@@ -83,7 +85,7 @@ function Layout(props) {
                 className={classes.link}
               >
                 Flatlogic
-                </Link>
+              </Link>
               <Link
                 color={'primary'}
                 href={'https://flatlogic.com/about'}
@@ -91,7 +93,7 @@ function Layout(props) {
                 className={classes.link}
               >
                 About Us
-                </Link>
+              </Link>
               <Link
                 color={'primary'}
                 href={'https://flatlogic.com/blog'}
@@ -99,7 +101,7 @@ function Layout(props) {
                 className={classes.link}
               >
                 Blog
-                </Link>
+              </Link>
             </div>
             <div>
               <Link

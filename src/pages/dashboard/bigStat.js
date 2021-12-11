@@ -27,13 +27,21 @@ function getBigStat(data) {
         sentiment = 0;
     }
     else {
-        const tf = getTimeframe(data.period);
-        const smt = data.news.news.find(item => item.timeframe === tf);
-        if (smt) {
-            sentiment = smt.sentiment;
-            yahooSentiment = smt.yahoo.sentiment;
-            tweetSentiment = smt.twitter.sentiment;
-            googleSentiment = smt.google.sentiment;
+        try {
+            const tf = getTimeframe(data.period);
+            const smt = data.news.news.find(item => item.timeframe === tf);
+            if (smt) {
+                sentiment = smt.sentiment;
+                yahooSentiment = smt.yahoo.sentiment;
+                tweetSentiment = smt.twitter.sentiment;
+                googleSentiment = smt.google.sentiment;
+            }
+        }
+        catch {
+            sentiment = 0;
+            yahooSentiment = 0;
+            tweetSentiment = 0;
+            googleSentiment = 0;
         }
     }
     const score = data && data.point ? data.point : 0;

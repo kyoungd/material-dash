@@ -39,24 +39,30 @@ const structure = [
   },
   {
     id: 2,
+    label: "Stack",
+    link: "/app/stacks", icon:
+      <TableIcon />
+  },
+  {
+    id: 3,
     label: "Typography",
     link: "/app/typography",
     icon: <TypographyIcon />,
   },
   {
-    id: 3,
+    id: 4,
     label: "Tables",
     link: "/app/tables", icon:
       <TableIcon />
   },
   {
-    id: 4,
+    id: 5,
     label: "Notifications",
     link: "/app/notifications",
     icon: <NotificationsIcon />,
   },
   {
-    id: 5,
+    id: 6,
     label: "UI Elements",
     link: "/app/ui",
     icon: <UIElementsIcon />,

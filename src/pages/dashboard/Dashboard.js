@@ -135,8 +135,10 @@ export default function Dashboard(props) {
     setSocket(io(process.env.REACT_APP_SERVER_STREAM || 'http://localhost:3001'));
 
     // CLEAN UP THE EFFECT
-    return () => socket.disconnect();
-
+    return () => {
+      if (socket)
+        socket.disconnect();
+    }
   }, []);
 
   // subscribe to the socket event
@@ -170,7 +172,7 @@ export default function Dashboard(props) {
         if (isArray(scores.threebar)) {
           setThreeBarScore(scores.threebar);
           setNewsData(scores.news);
-          console.log('setThreeBarScore : ', message.text);
+          // console.log('setThreeBarScore : ', message.text);
         }
       } catch { }
     });
@@ -186,10 +188,10 @@ export default function Dashboard(props) {
   // }, []);
 
   const stockSelected = (data, news) => {
-    data['news'] = news;
+    data['news'] = news ? news : [];
     setStudyData(data);
     getStockData(data["symbol"]).then(stock => {
-      console.log('stock1: ', stock);
+      // console.log('stock1: ', stock);
       setStockData(stock);
     });
     const mode = process.env.REACT_APP_SERVER_MODE;
@@ -198,13 +200,12 @@ export default function Dashboard(props) {
       setNewsDetail(newsDetail);
     }
     else if (process.env.REACT_APP_NEWS_URL && process.env.REACT_APP_NEWS_URL !== '') {
-      getNewsData(data["symbol"]).then(news => {
-        console.log('news1: ', news);
+      getNewsData(data["symbol"]).then(newsDetail => {
         setNewsDetail(newsDetail);
       });
     }
     else {
-      setNewsDetail(newsDetail);
+      setNewsDetail({});
     }
   }
 
@@ -217,8 +218,8 @@ export default function Dashboard(props) {
   // local
   var [mainChartState, setMainChartState] = useState("monthly");
 
-  console.log('stock2: ', isArray(stockData));
-  console.log('stock2: ', stockData);
+  // console.log('stock2: ', isArray(stockData));
+  // console.log('stock2: ', stockData);
   return (
     <>
       <PageTitle title="Dashboard" button={<Button

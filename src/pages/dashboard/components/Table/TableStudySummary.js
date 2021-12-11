@@ -19,25 +19,37 @@ const states = {
   secondary: "secondary",
 };
 
-function getStudySummary(data) {
+function getStudySummary(data, news) {
   // let test = [{ "k": 1, "y": 2 }];
   // console.log(test);
   // let data = [{ "KeyName": "STUDYTHREEBARSCORE", "Symbol": "FFHL", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "HTOO", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "AKYA", "Score": 4, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "SQBG", "Score": 2, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "RANI", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "IMPL", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "BTCM", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "ABSI", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "FCUV", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "XENE", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "MNTK", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "AGIL", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "UGRO", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "CARV", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }, { "KeyName": "STUDYTHREEBARSCORE", "Symbol": "ABOS", "Score": 0, "Fluctuation": 0, "KeyLevel": 0, "MultiTimeFrame": 0, "CandleStickPattern": 0, "PriceAction": 0, "FibonacciPattern": 0, "RsiAction": 0, "Ema50": 0, "Vwap": 0, "News": 0, "Correlation": 0, "WithTrend": 0, "BreakoutMomentum": 0, "FreshTrend": 0, "Level2": 0, "Total": 0 }];
   const dataTable = data.map(item => {
+    const newsItem = Object.keys(news) && Object.keys(news).length > 0 ? news.find(x => x.symbol === item.symbol) : null;
     item['Timestamp'] = new Date(item['timestamp'] * 1000);
     item['Status'] = 'Active'
     item['id'] = uuidv4()
+    item['sentiment'] = newsItem && newsItem[3] ? newsItem[3].sentiment : 0;
+    item['newsCount'] = newsItem && newsItem[3] ? newsItem[3].count : 0;
     return item;
   }).filter(item => item['Score'] > 0);
   return dataTable;
 }
 
 export default function TableComponent({ data, clickCallback }) {
+  const classes = useStyles();
+  if (data === undefined || data.length === 0) {
+    return (
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+        </Grid>
+      </Grid>
+    );
+  }
+
   const scores = data.threeBarScore;
   const news = data.newsData;
   const title = "THREE BAR STUDY"
-  const ranking = getStudySummary(scores);
-  const classes = useStyles();
+  const ranking = getStudySummary(scores, news);
   if (ranking == null || ranking.length <= 0)
     return <div />
   var keys = Object.keys(ranking[0]).map(i => i.toUpperCase());
@@ -56,6 +68,7 @@ export default function TableComponent({ data, clickCallback }) {
                 <TableCell>PERIOD</TableCell>
                 <TableCell>SCORE</TableCell>
                 <TableCell>VOLUME</TableCell>
+                <TableCell>NEWS</TableCell>
               </TableRow>
               {ranking.map((rate) => (
                 <TableRow key={rate.id}>
@@ -70,6 +83,7 @@ export default function TableComponent({ data, clickCallback }) {
                     <Chip label={rate.Score.toString()} classes={{ root: classes[states[rate.Status.toLowerCase()]] }} />
                   </TableCell>
                   <TableCell>{rate.data[0].v.toString()}</TableCell>
+                  <TableCell>{rate.sentiment.toString()} - {rate.newsCount.toString()}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

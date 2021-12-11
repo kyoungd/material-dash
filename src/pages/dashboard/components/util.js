@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 function dateFormat(date, fstr, utc) {
     utc = utc ? 'getUTC' : 'get';
     return fstr.replace(/%[YmdHMS]/g, function (m) {
@@ -46,23 +48,19 @@ export function getStockData(symbol = 'MSFT') {
     return promiseMSFT;
 }
 
-export function getNewsData(symbol = 'MSFT') {
-    const apiurl = process.env.REACT_APP_NEWS_URL + "/symbol=" + symbol;
-    const promiseMSFT = fetch(apiurl, {
-        method: "GET",
-        headers: {
-            "APCA-API-KEY-ID": "AKAV2Z5H0NJNXYF7K24D",
-            "APCA-API-SECRET-KEY": "262cAEeIRrL1KEZYKSTjZA79tj25XWrMtvz0Bezu"
+export async function getNewsData(symbol = 'MSFT') {
+    const apiurl = process.env.REACT_APP_NEWS_URL + "?symbol=" + symbol;
+    // http get using fetch api
+
+    try {
+        const response = await axios.get(apiurl);
+        if (response.status === 200) {
+            return response.data;
         }
-    })
-        .then(response => response.text())
-        .then(data => {
-            const objs = JSON.parse(data);
-            const dataArray = [];
-            objs.bars.forEach(item => {
-                dataArray.push({ date: new Date(item.t), open: item.o, high: item.h, low: item.l, close: item.c, volume: item.v });
-            });
-            return dataArray;
-        });
-    return promiseMSFT;
+        return { "yahoos": [], "googles": [], "twitters": [] };
+    }
+    catch (e) {
+        console.log(e);
+        return { "yahoos": [], "googles": [], "twitters": [] };
+    }
 }
