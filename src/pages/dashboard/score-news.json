@@ -1,0 +1,506 @@
+{
+    "threebar": [
+        {
+            "type": "threebars",
+            "symbol": "ABNB",
+            "period": "2Min",
+            "indicator": "price",
+            "timestamp": 1638297600,
+            "point": 4,
+            "data": [
+                {
+                    "t": 1638297600,
+                    "c": 14.88,
+                    "o": 14.91,
+                    "h": 14.99,
+                    "l": 14.8,
+                    "v": 17783,
+                    "date": "10:40:00 am",
+                    "seconds": 17298
+                },
+                {
+                    "t": 1638297480,
+                    "c": 14.93,
+                    "o": 14.95,
+                    "h": 15.03,
+                    "l": 14.75,
+                    "v": 20494,
+                    "date": "10:38:00 am",
+                    "seconds": 17418
+                },
+                {
+                    "t": 1638297360,
+                    "c": 15.03,
+                    "o": 14.9,
+                    "h": 15.03,
+                    "l": 14.75,
+                    "v": 16152,
+                    "date": "10:36:00 am",
+                    "seconds": 17538
+                },
+                {
+                    "t": 1638297240,
+                    "c": 14.75,
+                    "o": 14.88,
+                    "h": 14.97,
+                    "l": 14.75,
+                    "v": 17382,
+                    "date": "10:34:00 am",
+                    "seconds": 17658
+                },
+                {
+                    "t": 1638297120,
+                    "c": 14.88,
+                    "o": 14.825,
+                    "h": 14.95,
+                    "l": 14.71,
+                    "v": 18271,
+                    "date": "10:32:00 am",
+                    "seconds": 17778
+                },
+                {
+                    "t": 1638297000,
+                    "c": 14.775,
+                    "o": 14.9,
+                    "h": 14.9299,
+                    "l": 14.775,
+                    "v": 8545,
+                    "date": "10:30:00 am",
+                    "seconds": 17898
+                },
+                {
+                    "t": 1638296880,
+                    "c": 14.85,
+                    "o": 14.99,
+                    "h": 14.99,
+                    "l": 14.85,
+                    "v": 10996,
+                    "date": "10:28:00 am",
+                    "seconds": 18018
+                },
+                {
+                    "t": 1638296760,
+                    "c": 14.92,
+                    "o": 15.08,
+                    "h": 15.18,
+                    "l": 14.9,
+                    "v": 33670,
+                    "date": "10:26:00 am",
+                    "seconds": 18138
+                },
+                {
+                    "t": 1638296640,
+                    "c": 14.995,
+                    "o": 15.055,
+                    "h": 15.18,
+                    "l": 14.88,
+                    "v": 50585,
+                    "date": "10:24:00 am",
+                    "seconds": 18258
+                },
+                {
+                    "t": 1638296520,
+                    "c": 15.04,
+                    "o": 15.125,
+                    "h": 15.1434,
+                    "l": 14.87,
+                    "v": 54155,
+                    "date": "10:22:00 am",
+                    "seconds": 18378
+                }
+            ],
+            "trade": {
+                "symbol": "ABNB",
+                "close": 14.979,
+                "volume": 1000
+            },
+            "Score": 4
+        },
+        {
+            "type": "threebars",
+            "symbol": "OP",
+            "period": "2Min",
+            "indicator": "price",
+            "timestamp": 1638297240,
+            "point": 4,
+            "data": [
+                {
+                    "t": 1638297240,
+                    "c": 5.9,
+                    "o": 6,
+                    "h": 6.6,
+                    "l": 5.86,
+                    "v": 94701,
+                    "date": "10:34:00 am",
+                    "seconds": 17658
+                },
+                {
+                    "t": 1638297120,
+                    "c": 6.14,
+                    "o": 6,
+                    "h": 6.6,
+                    "l": 5.88,
+                    "v": 60495,
+                    "date": "10:32:00 am",
+                    "seconds": 17778
+                },
+                {
+                    "t": 1638296760,
+                    "c": 6.23,
+                    "o": 5.42,
+                    "h": 6.23,
+                    "l": 5.3,
+                    "v": 81127,
+                    "date": "10:26:00 am",
+                    "seconds": 18138
+                },
+                {
+                    "t": 1638296640,
+                    "c": 5.7,
+                    "o": 5.4607,
+                    "h": 5.75,
+                    "l": 5.25,
+                    "v": 43299,
+                    "date": "10:24:00 am",
+                    "seconds": 18258
+                },
+                {
+                    "t": 1638296520,
+                    "c": 5.41,
+                    "o": 5.2,
+                    "h": 5.64,
+                    "l": 5.1999,
+                    "v": 61120,
+                    "date": "10:22:00 am",
+                    "seconds": 18378
+                },
+                {
+                    "t": 1638296400,
+                    "c": 5.3999,
+                    "o": 5.2,
+                    "h": 5.4,
+                    "l": 5.1999,
+                    "v": 11660,
+                    "date": "10:20:00 am",
+                    "seconds": 18498
+                }
+            ],
+            "trade": {
+                "symbol": "OP",
+                "close": 6.075,
+                "volume": 19
+            },
+            "Score": 4
+        },
+        {
+            "type": "threebars",
+            "symbol": "CIAN",
+            "period": "5Min",
+            "indicator": "price",
+            "timestamp": 1638297000,
+            "point": 4,
+            "data": [
+                {
+                    "t": 1638297000,
+                    "c": 15.72,
+                    "o": 15.64,
+                    "h": 15.8,
+                    "l": 15.64,
+                    "v": 3142,
+                    "date": "10:30:00 am",
+                    "seconds": 17898
+                },
+                {
+                    "t": 1638296700,
+                    "c": 15.79,
+                    "o": 15.59,
+                    "h": 15.79,
+                    "l": 15.565,
+                    "v": 3369,
+                    "date": "10:25:00 am",
+                    "seconds": 18198
+                },
+                {
+                    "t": 1638296400,
+                    "c": 15.565,
+                    "o": 15.59,
+                    "h": 15.59,
+                    "l": 15.565,
+                    "v": 438,
+                    "date": "10:20:00 am",
+                    "seconds": 18498
+                }
+            ],
+            "trade": {
+                "symbol": "CIAN",
+                "close": 15.77,
+                "volume": 195
+            },
+            "Score": 4
+        }
+    ],
+    "news": [
+        {
+            "symbol": "ABNB",
+            "news": [
+                {
+                    "timeframe": "NEWS_SEARCH_1_hour_ago",
+                    "symbol": "ABNB",
+                    "yahoo": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "ABNB",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                },
+                {
+                    "timeframe": "NEWS_SEARCH_30_minute_ago",
+                    "symbol": "ABNB",
+                    "yahoo": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "ABNB",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                },
+                {
+                    "timeframe": "NEWS_SEARCH_2_hour_ago",
+                    "symbol": "ABNB",
+                    "yahoo": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "ABNB",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                },
+                {
+                    "timeframe": "NEWS_SEARCH_3_day_ago",
+                    "symbol": "ABNB",
+                    "yahoo": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "ABNB",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                },
+                {
+                    "timeframe": "NEWS_SEARCH_1_day_ago",
+                    "symbol": "ABNB",
+                    "yahoo": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "ABNB",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                },
+                {
+                    "timeframe": "NEWS_SEARCH_4_hour_ago",
+                    "symbol": "ABNB",
+                    "yahoo": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "ABNB",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "ABNB",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                }
+            ]
+        },
+        {
+            "symbol": "CIAN",
+            "news": [
+                {
+                    "timeframe": "NEWS_SEARCH_1_hour_ago",
+                    "symbol": "CIAN",
+                    "yahoo": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "CIAN",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                },
+                {
+                    "timeframe": "NEWS_SEARCH_30_minute_ago",
+                    "symbol": "CIAN",
+                    "yahoo": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "CIAN",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                },
+                {
+                    "timeframe": "NEWS_SEARCH_2_hour_ago",
+                    "symbol": "CIAN",
+                    "yahoo": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "CIAN",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                },
+                {
+                    "timeframe": "NEWS_SEARCH_3_day_ago",
+                    "symbol": "CIAN",
+                    "yahoo": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "CIAN",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                },
+                {
+                    "timeframe": "NEWS_SEARCH_1_day_ago",
+                    "symbol": "CIAN",
+                    "yahoo": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "CIAN",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                },
+                {
+                    "timeframe": "NEWS_SEARCH_4_hour_ago",
+                    "symbol": "CIAN",
+                    "yahoo": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "twitter": {
+                        "symbol": "CIAN",
+                        "sentiment": 120,
+                        "count": 210
+                    },
+                    "google": {
+                        "symbol": "CIAN",
+                        "sentiment": 35,
+                        "count": 30
+                    },
+                    "sentiment": 42,
+                    "count": 270
+                }
+            ]
+        }
+    ]
+}

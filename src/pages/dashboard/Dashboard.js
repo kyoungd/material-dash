@@ -30,9 +30,11 @@ import Ticker from "../../components/Ticker/Ticker";
 import { useUserState, useUserDispatch } from "../../context/UserContext";
 import TableComponent from './components/Table/Table';
 import Chart from './components/Chart';
-import { getStockData } from "./components/util";
+import { getStockData, getNewsData } from "./components/util";
 import TableStudySummary from './components/Table/TableStudySummary';
 import getBigStat from './bigStat';
+import { ScreenShare } from "@material-ui/icons";
+import TableNews from "./components/Table/TableNews";
 
 function symbolCard(item, dispatch, selectedItem, classes) {
   try {
@@ -123,16 +125,20 @@ function isArray(a) {
 export default function Dashboard(props) {
   const [socket, setSocket] = useState(null);
   const [threeBarScore, setThreeBarScore] = useState({});
+  const [newsData, setNewsData] = useState({});
+  const [newsDetail, setNewsDetail] = useState({});
   const [stockData, setStockData] = useState({});
   const [studyData, setStudyData] = useState({});
 
   // establish socket connection
   useEffect(() => {
-    setSocket(io('http://localhost:3001'));
+    setSocket(io(process.env.REACT_APP_SERVER_STREAM || 'http://localhost:3001'));
 
     // CLEAN UP THE EFFECT
-    return () => socket.disconnect();
-
+    return () => {
+      if (socket)
+        socket.disconnect();
+    }
   }, []);
 
   // subscribe to the socket event
@@ -158,10 +164,15 @@ export default function Dashboard(props) {
     // message from server
     socket.on("message", (message) => {
       try {
-        const scores = JSON.parse(message.text);
-        if (isArray(scores)) {
-          setThreeBarScore(scores);
-          console.log(message.text);
+        // test data here.
+        // use score-news.json file
+        const mode = process.env.REACT_APP_SERVER_MODE;
+        const scores = mode === 'DEBUG' ? require('./score-news.json') : JSON.parse(message.text);
+        // const scores = JSON.parse(message.text);
+        if (isArray(scores.threebar)) {
+          setThreeBarScore(scores.threebar);
+          setNewsData(scores.news);
+          // console.log('setThreeBarScore : ', message.text);
         }
       } catch { }
     });
@@ -176,12 +187,26 @@ export default function Dashboard(props) {
   //   });
   // }, []);
 
-  const stockSelected = (data) => {
+  const stockSelected = (data, news) => {
+    data['news'] = news ? news : [];
     setStudyData(data);
-    getStockData(data["Symbol"]).then(stock => {
-      console.log('stock1: ', stock);
+    getStockData(data["symbol"]).then(stock => {
+      // console.log('stock1: ', stock);
       setStockData(stock);
     });
+    const mode = process.env.REACT_APP_SERVER_MODE;
+    if (mode === 'DEBUG') {
+      const newsDetail = require('./news.json');
+      setNewsDetail(newsDetail);
+    }
+    else if (process.env.REACT_APP_NEWS_URL && process.env.REACT_APP_NEWS_URL !== '') {
+      getNewsData(data["symbol"]).then(newsDetail => {
+        setNewsDetail(newsDetail);
+      });
+    }
+    else {
+      setNewsDetail({});
+    }
   }
 
   var classes = useStyles();
@@ -190,12 +215,11 @@ export default function Dashboard(props) {
   var userDispatch = useUserDispatch();
 
   const mainChartData = getMainChartData(userState);
-
   // local
   var [mainChartState, setMainChartState] = useState("monthly");
 
-  console.log('stock2: ', isArray(stockData));
-  console.log('stock2: ', stockData);
+  // console.log('stock2: ', isArray(stockData));
+  // console.log('stock2: ', stockData);
   return (
     <>
       <PageTitle title="Dashboard" button={<Button
@@ -216,7 +240,7 @@ export default function Dashboard(props) {
       <Grid container spacing={4}>
         <Grid item xs={12}>
           {
-            threeBarScore != null && isArray(threeBarScore) ? <TableStudySummary data={threeBarScore} clickCallback={stockSelected} /> : <div>.Load...ThreeBar...</div>
+            threeBarScore != null && isArray(threeBarScore) ? <TableStudySummary data={{ threeBarScore, newsData }} clickCallback={stockSelected} /> : <div>.Load...ThreeBar...</div>
           }
           <Widget
             bodyClass={classes.mainChartBody}
@@ -263,9 +287,12 @@ export default function Dashboard(props) {
                   }
                   autoWidth
                 >
-                  <MenuItem value="daily">Daily</MenuItem>
-                  <MenuItem value="weekly">Weekly</MenuItem>
-                  <MenuItem value="monthly">Monthly</MenuItem>
+                  <MenuItem value="1Min">1 Min</MenuItem>
+                  <MenuItem value="2Min">2 Min</MenuItem>
+                  <MenuItem value="5Min">5 Min</MenuItem>
+                  <MenuItem value="10Min">10 Min</MenuItem>
+                  <MenuItem value="1Hour">Hourly</MenuItem>
+                  <MenuItem value="1Day">Daily</MenuItem>
                 </Select>
               </div>
             }
@@ -280,8 +307,7 @@ export default function Dashboard(props) {
             <BigStat {...stat} />
           </Grid>
         ))}
-        {tweetTable(userState)}
-        {newsTable(userState)}
+        <TableNews news={newsDetail} />
       </Grid>
     </>
   );

@@ -12,7 +12,7 @@ import { IconButton } from '@material-ui/core'
 import SlideDialogBox from '../SlideDialogBox';
 import { mdiConsoleNetworkOutline } from '@mdi/js';
 
-const ENDPOINT = "http://localhost:1337";
+const ENDPOINT = process.env.REACT_APP_SERVER_ENDPOINT || "http://localhost:1337";
 
 const useStyles = makeStyles((theme) => ({
     root: {

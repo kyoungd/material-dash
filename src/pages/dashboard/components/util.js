@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 function dateFormat(date, fstr, utc) {
     utc = utc ? 'getUTC' : 'get';
     return fstr.replace(/%[YmdHMS]/g, function (m) {
@@ -44,4 +46,21 @@ export function getStockData(symbol = 'MSFT') {
             return dataArray;
         });
     return promiseMSFT;
+}
+
+export async function getNewsData(symbol = 'MSFT') {
+    const apiurl = process.env.REACT_APP_NEWS_URL + "?symbol=" + symbol;
+    // http get using fetch api
+
+    try {
+        const response = await axios.get(apiurl);
+        if (response.status === 200) {
+            return response.data;
+        }
+        return { "yahoos": [], "googles": [], "twitters": [] };
+    }
+    catch (e) {
+        console.log(e);
+        return { "yahoos": [], "googles": [], "twitters": [] };
+    }
 }
